@@ -1,5 +1,6 @@
 package com.company;
 
+import com.company.animals.Animal;
 import com.company.menu.Menu;
 
 public class Main {
@@ -9,5 +10,7 @@ public class Main {
         Menu menu = new Menu();
         menu.show();
         menu.getLine(menu.getInput());
+
+        Animal animal =
     }
 }
