@@ -4,6 +4,10 @@ import com.company.animals.Animal;
 import com.company.animals.AnimalFactory;
 import com.company.animals.AnimalType;
 import com.company.buildings.*;
+import com.company.farmlands.Farmland;
+import com.company.farmlands.FarmlandFactory;
+import com.company.farmlands.Food;
+import com.company.farms.Farm;
 import com.company.menu.Menu;
 
 import java.util.ArrayList;
@@ -39,6 +43,12 @@ public class Main {
         tada.add(warehouse);
         System.out.println(tada);
 
+        Farm farma = new Farm(10);
+        farma.addBuilding(animalHouse);
+        System.out.println(farma);
 
+        FarmlandFactory farmlandFactory = new FarmlandFactory();
+        Farmland farmland = farmlandFactory.create(Food.KAPUSTA);
+        System.out.println(farmland);
     }
 }

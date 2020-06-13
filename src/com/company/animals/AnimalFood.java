@@ -1,5 +1,7 @@
 package com.company.animals;
 
+import com.company.farmlands.Food;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -11,6 +13,7 @@ public final class AnimalFood {
             add(Food.SIANO);
             add(Food.ZBOZE);
             add(Food.MARCHEW);
+            add(Food.BURAKI);
         }});
 
         put(AnimalType.CHICKEN, new ArrayList<>(){{
@@ -22,12 +25,14 @@ public final class AnimalFood {
         put(AnimalType.RABBIT, new ArrayList<>(){{
             add(Food.SIANO);
             add(Food.KAPUSTA);
+            add(Food.SALATA);
         }});
 
         put(AnimalType.PIG, new ArrayList<>(){{
             add(Food.SIANO);
             add(Food.ZIEMNIAKI);
             add(Food.KAPUSTA);
+            add(Food.SALATA);
             add(Food.KUKURYDZA);
         }});
 
@@ -52,6 +57,7 @@ public final class AnimalFood {
         put(AnimalType.GOOSE, new ArrayList<>(){{
             add(Food.MARCHEW);
             add(Food.KAPUSTA);
+            add(Food.SALATA);
             add(Food.BURAKI);
             add(Food.ZIEMNIAKI);
         }});

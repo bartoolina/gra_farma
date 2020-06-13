@@ -1,5 +1,8 @@
 package com.company.animals;
 
+import com.company.buildings.Building;
+import com.company.farmlands.Food;
+
 import java.util.List;
 
 public class Animal {
@@ -12,6 +15,7 @@ public class Animal {
     public final Double foodPerWeek;
     public final List<Food> acceptedFood;
     private Integer weeksStarving;
+    public Building assignedTo;
 
     Animal(AnimalType species, Integer cost, Integer oldInWeeks, Double weight) {
         this.species = species;

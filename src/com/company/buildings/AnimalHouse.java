@@ -16,13 +16,17 @@ public class AnimalHouse extends Building<Animal> {
     @Override
     public void put(Animal animal) {
         if (animals.contains(animal)) {
-            animalNotExist();
+            alreadyContains();
             return;
         }
         if (maxCapacity > capacity) {
             animals.add(animal);
+            animal.assignedTo = this;
             capacity++;
         } else notEnoughSpece();
+    }
+
+    private void alreadyContains() {
     }
 
     private void notEnoughSpece() {
@@ -32,6 +36,7 @@ public class AnimalHouse extends Building<Animal> {
     public void remove(Animal animal) {
         if (animals.contains(animal)) {
             animals.remove(animal);
+            animal.assignedTo = null;
             capacity--;
         } else animalNotExist();
     }

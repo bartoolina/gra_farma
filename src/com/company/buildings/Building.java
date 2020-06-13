@@ -1,16 +1,18 @@
 package com.company.buildings;
 
 import com.company.animals.Animal;
+import com.company.farms.Farm;
 
 import java.util.List;
 
 abstract public class Building<T> {
-    final BuildingType buildingType;
+    public final BuildingType buildingType;
     Integer capacity;
     final Integer maxCapacity;
-    final Integer space;
+    public final Integer space;
     final Double cost;
     final Double costToDestroy;
+    public Farm assignedTo;
 
     public Building(BuildingType buildingType,Double cost ,Double costToDestroy ,Integer maxCapacity, Integer space) {
         this.buildingType = buildingType;
