@@ -2,6 +2,7 @@ package com.company.farms;
 
 import com.company.buildings.Building;
 import com.company.farmlands.Farmland;
+import com.company.players.Player;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +15,7 @@ public class Farm {
     Integer farmlandUsedSpaces;
     List<Farmland> farmlands;
     Double cost;
-    // owner
+    public Player assignetTo;
 
     public Farm(Integer buildingMaxSpaces) {
         this.buildingMaxSpaces = buildingMaxSpaces;
@@ -60,6 +61,25 @@ public class Farm {
 
     public Integer getFarmlandUsedSpaces() {
         return farmlandUsedSpaces;
+    }
+
+    public Double getCost() {
+        return cost;
+    }
+
+    public List<Building> getBuildings() {
+        return buildings;
+    }
+
+    public Double getValue() {
+        Double value = cost;
+        for (Building building : buildings) {
+            value += building.cost;
+        }
+        for (Farmland farmland : farmlands) {
+            value += farmland.cost;
+        }
+        return value;
     }
 
     @Override

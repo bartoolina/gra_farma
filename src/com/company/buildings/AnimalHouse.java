@@ -49,6 +49,15 @@ public class AnimalHouse extends Building<Animal> {
         return animals;
     }
 
+    public Double getValueAnimals () {
+        Double valueAnimals = 0.0;
+        for (Animal animal : animals) {
+            valueAnimals += animal.cost;
+        }
+        return valueAnimals;
+    }
+
+
     @Override
     public String toString() {
         return "AnimalHouse{" +

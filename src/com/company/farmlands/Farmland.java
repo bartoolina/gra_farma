@@ -1,11 +1,12 @@
 package com.company.farmlands;
 
 import com.company.farms.Farm;
+import com.company.goods.Goods;
 
 import java.util.ArrayList;
 
 public class Farmland extends Land{
-    Double cost;
+    public Double cost;
     public Farm assignedTo;
 
     public Farmland() {
@@ -27,6 +28,22 @@ public class Farmland extends Land{
         }
     }
 
+    public Goods harvestGoods (Integer actualWeek) {
+        if (actualWeek >= weekPlanting + weeksGrowing) {
+            Goods harvest =  new Goods(foodType, amountOfGoods);
+            this.foodType = Food.TRAWA;
+            this.costPrepare = 0.0;
+            this.costWeekly = 0.0;
+            this.costHarvest = 0.0;
+            this.amountOfGoods = 0.0;
+            this.weeksPlanting = null;
+            this.weeksGrowing = 0;
+            this.weekPlanting = actualWeek;
+            return harvest;
+        }
+        return null;
+    }
+
     @Override
     public String toString() {
         return "Farmland{" +
@@ -38,6 +55,7 @@ public class Farmland extends Land{
                 ", amountOfGoods=" + amountOfGoods +
                 ", weeksPlanting=" + weeksPlanting +
                 ", weeksGrowing=" + weeksGrowing +
+                ", weekPlanting=" + weekPlanting +
                 '}';
     }
 }

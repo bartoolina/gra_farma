@@ -10,7 +10,7 @@ abstract public class Building<T> {
     Double capacity;
     final Integer maxCapacity;
     public final Integer space;
-    final Double cost;
+    public final Double cost;
     final Double costToDestroy;
     public Farm assignedTo;
 

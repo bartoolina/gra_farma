@@ -15,5 +15,11 @@ public class Goods {
         return foodType;
     }
 
-
+    @Override
+    public String toString() {
+        return "Goods{" +
+                "foodType=" + foodType +
+                ", AmountOfFood=" + AmountOfFood +
+                '}';
+    }
 }
