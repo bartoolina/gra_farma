@@ -1,26 +1,30 @@
 package com.company.farmlands;
 
-import java.util.List;
+import com.company.farms.Farm;
 
-public class Farmland {
-    Food foodType;
+import java.util.ArrayList;
+
+public class Farmland extends Land{
     Double cost;
-    Double costPrepare;
-    Double costWeekly;
-    Double costHarvest;
-    Double amountOfGoods;
-    List<Integer> weeksPlanting;
-    Integer weeksGrowing;
+    public Farm assignedTo;
 
-    public Farmland(Food foodType, Double cost, Double costPrepare, Double costWeekly, Double costHarvest, Double amountOfGoods, List<Integer> weeksPlanting, Integer weeksGrowing) {
-        this.foodType = foodType;
-        this.cost = cost;
-        this.costPrepare = costPrepare;
-        this.costWeekly = costWeekly;
-        this.costHarvest = costHarvest;
-        this.amountOfGoods = amountOfGoods;
-        this.weeksPlanting = weeksPlanting;
-        this.weeksGrowing = weeksGrowing;
+    public Farmland() {
+        super(Food.TRAWA, 0.0,0.0,0.0,0.0,
+                new ArrayList<>(),0,0);
+        cost = 100.0;
+    }
+
+    public void prepareFarmland (Land land, Integer actualWeek) {
+        if (land.weeksPlanting.contains(actualWeek)) {
+            this.foodType = land.foodType;
+            this.costPrepare = land.costPrepare;
+            this.costWeekly = land.costWeekly;
+            this.costHarvest = land.costHarvest;
+            this.amountOfGoods = land.amountOfGoods;
+            this.weeksPlanting = land.weeksPlanting;
+            this.weeksGrowing = land.weeksGrowing;
+            this.weekPlanting = actualWeek;
+        }
     }
 
     @Override

@@ -7,7 +7,7 @@ import java.util.List;
 
 abstract public class Building<T> {
     public final BuildingType buildingType;
-    Integer capacity;
+    Double capacity;
     final Integer maxCapacity;
     public final Integer space;
     final Double cost;
@@ -20,7 +20,7 @@ abstract public class Building<T> {
         this.space = space;
         this.cost = cost;
         this.costToDestroy = costToDestroy;
-        capacity = 0;
+        capacity = 0.0;
     }
 
     abstract public void put (T type);

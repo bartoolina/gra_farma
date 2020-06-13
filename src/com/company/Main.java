@@ -5,10 +5,10 @@ import com.company.animals.AnimalFactory;
 import com.company.animals.AnimalType;
 import com.company.buildings.*;
 import com.company.farmlands.Farmland;
-import com.company.farmlands.FarmlandFactory;
+import com.company.farmlands.Land;
+import com.company.farmlands.LandFactory;
 import com.company.farmlands.Food;
 import com.company.farms.Farm;
-import com.company.menu.Menu;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,8 +47,11 @@ public class Main {
         farma.addBuilding(animalHouse);
         System.out.println(farma);
 
-        FarmlandFactory farmlandFactory = new FarmlandFactory();
-        Farmland farmland = farmlandFactory.create(Food.KAPUSTA);
+        LandFactory landFactory = new LandFactory();
+        Land cos = landFactory.create(Food.TRAWA);
+        System.out.println(cos);
+        Farmland farmland = new Farmland();
+        farmland.prepareFarmland(cos, 10);
         System.out.println(farmland);
     }
 }

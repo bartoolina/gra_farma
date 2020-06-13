@@ -1,9 +1,7 @@
 package com.company.farms;
 
-import com.company.buildings.AnimalHouse;
 import com.company.buildings.Building;
-import com.company.buildings.BuildingType;
-import com.company.buildings.Warehouse;
+import com.company.farmlands.Farmland;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,8 +10,9 @@ public class Farm {
     Integer buildingMaxSpaces;
     Integer buildingUsedSpaces;
     List<Building> buildings;
-//    Integer maxSpaceForFarmland;
-//    List<Farmland> farmlands;
+    Integer farmlandMaxSpaces;
+    Integer farmlandUsedSpaces;
+    List<Farmland> farmlands;
     Double cost;
     // owner
 
@@ -37,6 +36,30 @@ public class Farm {
             building.assignedTo = null;
             buildingUsedSpaces -= building.space;
         }
+    }
+
+    public void addFarmland(Farmland farmland) {
+        if (farmlandUsedSpaces < farmlandMaxSpaces) {
+            farmlands.add(farmland);
+            farmland.assignedTo = this;
+            farmlandUsedSpaces++;
+        }
+    }
+
+    public void removeFarmland(Farmland farmland) {
+        if (farmlands.contains(farmland)) {
+            farmlands.remove(farmland);
+            farmland.assignedTo = null;
+            farmlandUsedSpaces--;
+        }
+    }
+
+    public Integer getBuildingUsedSpaces() {
+        return buildingUsedSpaces;
+    }
+
+    public Integer getFarmlandUsedSpaces() {
+        return farmlandUsedSpaces;
     }
 
     @Override
