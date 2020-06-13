@@ -2,7 +2,7 @@ package com.company.animals;
 
 import java.util.List;
 
-abstract public class Animal {
+public class Animal {
     public final AnimalType species;
     public final Integer cost;
     private Double weight;
@@ -60,5 +60,18 @@ abstract public class Animal {
     }
 
     private void animalIsAdult(Animal animal) {
+    }
+
+    @Override
+    public String toString() {
+        return "Animal{" +
+                "species=" + species +
+                ", cost=" + cost + "$" +
+                ", weight=" + String.format("%.2f",weight) + "kg" +
+                ", oldInWeeks=" + oldInWeeks +
+                ", foodPerWeek=" + foodPerWeek + "kg" +
+                ", acceptedFood=" + acceptedFood +
+                ", weeksStarving=" + weeksStarving +
+                '}';
     }
 }
