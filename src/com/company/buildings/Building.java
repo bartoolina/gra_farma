@@ -23,6 +23,7 @@ abstract public class Building<T> {
 
     abstract public void put (T type);
     abstract public void remove (T type);
+    abstract public String toString();
 
 
 }

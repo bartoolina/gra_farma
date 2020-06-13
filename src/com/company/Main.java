@@ -26,16 +26,16 @@ public class Main {
         System.out.println(animal3);
 
         BuildingFactory buildingFactory = new BuildingFactory();
-        AnimalHouse animalHouseBuilding = buildingFactory.create(BuildingType.KURNIK, 1);
+        Building animalHouse = buildingFactory.create(BuildingType.KURNIK, 1);
 
         List<Building> tada = new ArrayList<>();
-        tada.add(animalHouseBuilding);
+        tada.add(animalHouse);
         System.out.println(tada);
-        animalHouseBuilding.put(animal1);
-        animalHouseBuilding.put(animal3);
-        animalHouseBuilding.put(animal2);
+        animalHouse.put(animal1);
+        animalHouse.put(animal3);
+        animalHouse.put(animal2);
 
-        Warehouse warehouse = buildingFactory.create(2);
+        Building warehouse = buildingFactory.create(BuildingType.MAGAZYN, 3);
         tada.add(warehouse);
         System.out.println(tada);
 

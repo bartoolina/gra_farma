@@ -1,8 +1,10 @@
 package com.company.buildings;
 
-public class BuildingFactory extends Factory {
-    @Override
-    public AnimalHouse create(BuildingType buildingType, Integer size) {
+import com.company.animals.Animal;
+
+public class BuildingFactory {
+
+    public Building create(BuildingType buildingType, Integer size) {
         switch (buildingType) {
             case OBORA -> {
                 return new AnimalHouse(buildingType, 300.0 * size, 100.0, 10 * size, size);
@@ -19,13 +21,11 @@ public class BuildingFactory extends Factory {
             case KURNIK -> {
                 return new AnimalHouse(buildingType, 250.0 * size, 100.0, 20 * size, size);
             }
-
+            case MAGAZYN -> {
+                return new Warehouse(buildingType, 500.0 * size, 100.0, 200 * size, size);
+            }
             default -> throw new IllegalStateException("Unexpected value: " + buildingType);
         }
     }
 
-    @Override
-    public Warehouse create(Integer size) {
-        return new Warehouse(BuildingType.MAGAZYN, 500.0, 100.0, 100 * size, size);
-    }
 }
