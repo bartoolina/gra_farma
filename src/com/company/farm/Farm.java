@@ -4,13 +4,14 @@ import com.company.building.Building;
 import com.company.building.BuildingType;
 import com.company.building.Warehouse;
 import com.company.farmland.Farmland;
+import com.company.game.ISendMsg;
 import com.company.goods.Food;
 import com.company.game.Player;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Farm {
+public class Farm implements ISendMsg {
     Integer buildingMaxSpaces;
     Integer buildingUsedSpaces;
     List<Building> buildingList;
@@ -123,5 +124,10 @@ public class Farm {
             }
         }
         return warehouses;
+    }
+
+    @Override
+    public void sendMsg(String msg) {
+        assignetToPlayer.sendMsg(msg, this);
     }
 }

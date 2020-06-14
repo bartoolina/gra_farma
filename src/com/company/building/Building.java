@@ -1,9 +1,10 @@
 package com.company.building;
 
 import com.company.farm.Farm;
+import com.company.game.ISendMsg;
 import com.company.game.Player;
 
-abstract public class Building<T> {
+abstract public class Building<T> implements ISendMsg {
     public final BuildingType buildingType;
     protected Double capacity;
     final Double maxCapacity;

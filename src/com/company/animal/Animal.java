@@ -1,5 +1,6 @@
 package com.company.animal;
 
+import com.company.building.AnimalHouse;
 import com.company.building.Building;
 import com.company.game.NextWeekObserver;
 import com.company.game.Player;
@@ -17,7 +18,7 @@ public class Animal implements NextWeekObserver {
     public final Double foodPerWeek;
     public final List<Food> acceptedFood;
     private Integer weeksStarving;
-    public Building assignedToBuilding;
+    public AnimalHouse assignedToBuilding;
 
     Animal(AnimalType species, Double cost, Integer oldInWeeks, Double weight) {
         this.species = species;
@@ -34,7 +35,7 @@ public class Animal implements NextWeekObserver {
     public void nextWeek (Player player) {
         if (oldInWeeks < adulthood){
             oldInWeeks++;
-            if (oldInWeeks == adulthood) animalIsAdult(player);
+            if (oldInWeeks.equals(adulthood)) animalIsAdult(player);
         }
 
         if (takeFood(acceptedFood, foodPerWeek)){
@@ -61,8 +62,7 @@ public class Animal implements NextWeekObserver {
     }
 
     private void animalIsAdult(Player player) {
-        //TODO
-        player.sendMsg(species + " osiagnelo doroslowsc.", assignedToBuilding.assignedToFarm);
+        assignedToBuilding.sendMsg(species + " osiagnelo doroslowsc.");
     }
 
     @Override

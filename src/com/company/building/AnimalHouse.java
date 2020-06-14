@@ -2,12 +2,13 @@ package com.company.building;
 
 import com.company.animal.Animal;
 import com.company.animal.AnimalType;
+import com.company.game.ISendMsg;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class AnimalHouse extends Building<Animal>  {
+public class AnimalHouse extends Building<Animal> implements ISendMsg {
     private List<Animal> animalList;
     public final List<AnimalType> acceptedAnimals;
 
@@ -70,4 +71,8 @@ public class AnimalHouse extends Building<Animal>  {
         return animalList.isEmpty();
     }
 
+    @Override
+    public void sendMsg(String msg) {
+        assignedToFarm.sendMsg(msg);
+    }
 }

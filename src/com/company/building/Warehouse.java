@@ -29,13 +29,14 @@ public class Warehouse extends Building<Goods> {
                 goodsList.add(new Goods(goods.getFoodType(), insertedGoods));
             }
         } else {
-            assignedToFarm.assignetToPlayer.sendMsg("Magazyn jest pelny.", assignedToFarm);
+            sendMsg("Magazyn jest pelny.");
         }
         if((goods.amountOfFood - insertedGoods) < 0.001) {
             goods.amountOfFood = 0.0;
             return true;
         } else {
             goods.amountOfFood -= insertedGoods;
+            sendMsg("W jednym w Twoich magazynow skonczylo sie " + goods.getFoodType());
             return false;
         }
     }
@@ -54,6 +55,7 @@ public class Warehouse extends Building<Goods> {
             return true;
         } else {
             goods.amountOfFood -= takenGoods;
+            sendMsg("W jednym w Twoich magazynow skonczylo sie " + goods.getFoodType());
             return false;
         }
     }
@@ -75,6 +77,7 @@ public class Warehouse extends Building<Goods> {
     }
 
     public Double takeGoods(List<Food> acceptedFood, Double neededGoods) {
+        //Warning:(81,9) Type may be primitive <- o co ... chodzi?
         Double takenGoods = 0.0;
         for (Goods goods : goodsList) {
             if (acceptedFood.contains(goods.getFoodType())) {
@@ -83,9 +86,17 @@ public class Warehouse extends Building<Goods> {
                 if (Math.abs(takenGoods - neededGoods) < 0.001){
                     takenGoods = neededGoods;
                     break;
+                } else {
+                    neededGoods -= takenGoods;
+                    sendMsg("W jednym w Twoich magazynow skonczylo sie " + goods.getFoodType());
                 }
             }
         }
         return takenGoods;
+    }
+
+    @Override
+    public void sendMsg(String msg) {
+        assignedToFarm.sendMsg(msg);
     }
 }
