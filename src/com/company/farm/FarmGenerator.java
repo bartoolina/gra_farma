@@ -1,9 +1,9 @@
-package com.company.farms;
+package com.company.farm;
 
-import com.company.buildings.Building;
-import com.company.buildings.BuildingFactory;
-import com.company.buildings.BuildingType;
-import com.company.farmlands.Farmland;
+import com.company.building.Building;
+import com.company.building.BuildingFactory;
+import com.company.building.BuildingType;
+import com.company.farmland.Farmland;
 
 import java.util.ArrayList;
 import java.util.List;

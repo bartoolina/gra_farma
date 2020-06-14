@@ -1,20 +1,7 @@
 package com.company;
 
-import com.company.animals.Animal;
-import com.company.animals.AnimalFactory;
-import com.company.animals.AnimalType;
-import com.company.buildings.*;
-import com.company.farmlands.Farmland;
-import com.company.farmlands.Land;
-import com.company.farmlands.LandFactory;
-import com.company.farmlands.Food;
-import com.company.farms.Farm;
-import com.company.farms.FarmGenerator;
-import com.company.goods.Goods;
-import com.company.players.Player;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.company.farm.Farm;
+import com.company.farm.FarmGenerator;
 
 public class Main {
 
@@ -59,18 +46,12 @@ public class Main {
 //        Goods zwrot = farmland.harvestGoods(26);
 //        System.out.println(zwrot );
 
-        Player bart = new Player("Bart",1000.0);
+        Player bart = new Player("Bart",5000.0);
         FarmGenerator farmGenerator = new FarmGenerator();
         Farm farm1 = farmGenerator.newFarm();
-        Farm farm2 = farmGenerator.newFarm();
-        Farm farm3 = farmGenerator.newFarm();
-        Farm farm4 = farmGenerator.newFarm();
-        Farm farm5 = farmGenerator.newFarm();
         System.out.println(farm1);
-        System.out.println(farm2);
-        System.out.println(farm3);
-        System.out.println(farm4);
-        System.out.println(farm5);
+        bart.buyFarm(farm1);
+
 
     }
 }

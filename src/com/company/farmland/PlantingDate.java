@@ -1,4 +1,6 @@
-package com.company.farmlands;
+package com.company.farmland;
+
+import com.company.goods.Food;
 
 import java.util.Arrays;
 import java.util.HashMap;

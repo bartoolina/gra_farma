@@ -1,8 +1,7 @@
-package com.company.farmlands;
+package com.company.farmland;
 
-import com.company.farms.Farm;
+import com.company.goods.Food;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Land {

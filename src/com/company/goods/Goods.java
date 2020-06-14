@@ -1,14 +1,12 @@
 package com.company.goods;
 
-import com.company.farmlands.Food;
-
 public class Goods {
     private Food foodType;
-    public Double AmountOfFood;
+    public Double amountOfFood;
 
     public Goods(Food foodType, Double amountOfFood) {
         this.foodType = foodType;
-        AmountOfFood = amountOfFood;
+        this.amountOfFood = amountOfFood;
     }
 
     public Food getFoodType() {
@@ -19,7 +17,7 @@ public class Goods {
     public String toString() {
         return "Goods{" +
                 "foodType=" + foodType +
-                ", AmountOfFood=" + AmountOfFood +
+                ", AmountOfFood=" + amountOfFood +
                 '}';
     }
 }

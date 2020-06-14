@@ -1,6 +1,6 @@
-package com.company.animals;
+package com.company.animal;
 
-import com.company.farmlands.Food;
+import com.company.goods.Food;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,6 +26,7 @@ public final class AnimalFood {
             add(Food.SIANO);
             add(Food.KAPUSTA);
             add(Food.SALATA);
+            add(Food.RUKOLA);
         }});
 
         put(AnimalType.PIG, new ArrayList<>(){{
@@ -39,6 +40,7 @@ public final class AnimalFood {
         put(AnimalType.SHEEP, new ArrayList<>(){{
             add(Food.SIANO);
             add(Food.TRAWA);
+            add(Food.RUKOLA);
         }});
 
         put(AnimalType.COW, new ArrayList<>(){{

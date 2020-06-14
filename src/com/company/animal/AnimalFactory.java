@@ -1,4 +1,4 @@
-package com.company.animals;
+package com.company.animal;
 
 import java.util.Random;
 
@@ -14,28 +14,28 @@ public class AnimalFactory {
 
         switch (animalType) {
             case COW -> {
-                return new Animal(animalType, 100, old, weight);
+                return new Animal(animalType, 100.0, old, weight);
             }
             case PIG -> {
-                return new Animal(animalType, 101, old, weight);
+                return new Animal(animalType, 101.0, old, weight);
             }
             case RABBIT -> {
-                return new Animal(animalType, 102, old, weight);
+                return new Animal(animalType, 102.0, old, weight);
             }
             case HORSE -> {
-                return new Animal(animalType, 103, old, weight);
+                return new Animal(animalType, 103.0, old, weight);
             }
             case SHEEP -> {
-                return new Animal(animalType, 104, old, weight);
+                return new Animal(animalType, 104.0, old, weight);
             }
             case GOAT -> {
-                return new Animal(animalType, 105, old, weight);
+                return new Animal(animalType, 105.0, old, weight);
             }
             case CHICKEN -> {
-                return new Animal(animalType, 106, old, weight);
+                return new Animal(animalType, 106.0, old, weight);
             }
             case GOOSE -> {
-                return new Animal(animalType, 107, old, weight);
+                return new Animal(animalType, 107.0, old, weight);
             }
             default -> throw new IllegalStateException("Unexpected value: " + animalType);
         }

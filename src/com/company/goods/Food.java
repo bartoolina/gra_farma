@@ -1,6 +1,6 @@
-package com.company.farmlands;
+package com.company.goods;
 
-public enum  Food {
+public enum Food {
     SIANO, TRAWA,
     // raz w roku
     KUKURYDZA, KAPUSTA, BURAKI, SALATA, MARCHEW, ZIEMNIAKI, OGORKI, JABLKA, ZBOZE, PSZENICA,

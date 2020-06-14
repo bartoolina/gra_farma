@@ -1,23 +1,25 @@
-package com.company.animals;
+package com.company.animal;
 
-import com.company.buildings.Building;
-import com.company.farmlands.Food;
+import com.company.building.Building;
+import com.company.game.NextWeekObserver;
+import com.company.game.Player;
+import com.company.goods.Food;
 
 import java.util.List;
 
-public class Animal {
+public class Animal implements NextWeekObserver {
     public final AnimalType species;
-    public final Integer cost;
+    public final Double cost;
     private Double weight;
     public final Double growPerWeek;
     private Integer oldInWeeks;
-    private Integer adulthood;
+    private final Integer adulthood;
     public final Double foodPerWeek;
     public final List<Food> acceptedFood;
     private Integer weeksStarving;
-    public Building assignedTo;
+    public Building assignedToBuilding;
 
-    Animal(AnimalType species, Integer cost, Integer oldInWeeks, Double weight) {
+    Animal(AnimalType species, Double cost, Integer oldInWeeks, Double weight) {
         this.species = species;
         this.cost = cost;
         this.oldInWeeks = oldInWeeks;
@@ -29,41 +31,38 @@ public class Animal {
         adulthood = AnimalAdulthood.getAdulthood(species);
     }
 
-    public Double getWeight() {
-        return weight;
-    }
-
-    public Integer getOldInWeeks() {
-        return oldInWeeks;
-    }
-
-    public void nextWeek () {
+    public void nextWeek (Player player) {
         if (oldInWeeks < adulthood){
             oldInWeeks++;
-            if (oldInWeeks == adulthood) animalIsAdult(this);
+            if (oldInWeeks == adulthood) animalIsAdult(player);
         }
 
-        if (isEnoughFood(acceptedFood)){
+        if (takeFood(acceptedFood, foodPerWeek)){
             weight += growPerWeek;
             weeksStarving = 0;
-            takeFood(acceptedFood, foodPerWeek);
         } else {
             weight -= growPerWeek;
-            if (weeksStarving > 1) animalIsDead(this);
+            if (weeksStarving > 1) animalIsDead(player);
+            else animalIsStarving(player);
         }
     }
 
-    private boolean isEnoughFood(List<Food> acceptedFood) {
-        return true;
+    private void animalIsStarving(Player player) {
+        player.sendMsg(species + " gloduje. Za malo jedzenia!", assignedToBuilding.assignedToFarm);
     }
 
-    private void takeFood(List<Food> acceptedFood, Double foodPerWeek) {
+    private boolean takeFood(List<Food> acceptedFood, Double foodPerWeek) {
+        return assignedToBuilding.assignedToFarm.getFood(acceptedFood, foodPerWeek);
     }
 
-    private void animalIsDead(Animal animal) {
+    private void animalIsDead(Player player) {
+        player.sendMsg(species + " zmarlo z glodu.", assignedToBuilding.assignedToFarm);
+        assignedToBuilding.remove(this);
     }
 
-    private void animalIsAdult(Animal animal) {
+    private void animalIsAdult(Player player) {
+        //TODO
+        player.sendMsg(species + " osiagnelo doroslowsc.", assignedToBuilding.assignedToFarm);
     }
 
     @Override

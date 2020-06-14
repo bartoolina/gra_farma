@@ -1,4 +1,4 @@
-package com.company.animals;
+package com.company.animal;
 
 import java.util.HashMap;
 import java.util.Map;
