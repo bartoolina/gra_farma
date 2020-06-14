@@ -36,10 +36,10 @@ public class Warehouse extends Building<Goods> {
     @Override
     public String toString() {
         return "Warehouse{" +
-                "goods=" + goodsList +
+//                "goods=" + goodsList +
                 ", buildingType=" + buildingType +
-                ", capacity=" + capacity +
-                ", maxCapacity=" + maxCapacity +
+//                ", capacity=" + capacity +
+//                ", maxCapacity=" + maxCapacity +
                 ", space=" + space +
                 '}';
     }

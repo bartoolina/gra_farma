@@ -23,6 +23,16 @@ public class Farm {
         buildings = new ArrayList<>();
     }
 
+    public Farm(Integer buildingMaxSpaces, Integer buildingUsedSpaces, List<Building> buildings, Integer farmlandMaxSpaces, Integer farmlandUsedSpaces, List<Farmland> farmlands, Double cost) {
+        this.buildingMaxSpaces = buildingMaxSpaces;
+        this.buildingUsedSpaces = buildingUsedSpaces;
+        this.buildings = buildings;
+        this.farmlandMaxSpaces = farmlandMaxSpaces;
+        this.farmlandUsedSpaces = farmlandUsedSpaces;
+        this.farmlands = farmlands;
+        this.cost = cost;
+    }
+
     public void addBuilding(Building building) {
         if (buildingUsedSpaces + building.space <= buildingMaxSpaces) {
             buildings.add(building);
@@ -88,6 +98,11 @@ public class Farm {
                 "buildingMaxSpaces=" + buildingMaxSpaces +
                 ", buildingUsedSpaces=" + buildingUsedSpaces +
                 ", buildings=" + buildings +
+                ", farmlandMaxSpaces=" + farmlandMaxSpaces +
+                ", farmlandUsedSpaces=" + farmlandUsedSpaces +
+                ", farmlands=" + farmlands +
+                ", cost=" + cost +
+                ", assignetTo=" + assignetTo +
                 '}';
     }
 }

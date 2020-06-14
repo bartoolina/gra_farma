@@ -61,10 +61,10 @@ public class AnimalHouse extends Building<Animal> {
     @Override
     public String toString() {
         return "AnimalHouse{" +
-                "animals=" + animals +
+//                "animals=" + animals +
                 ", buildingType=" + buildingType +
-                ", capacity=" + capacity +
-                ", maxCapacity=" + maxCapacity +
+//                ", capacity=" + capacity +
+//                ", maxCapacity=" + maxCapacity +
                 ", space=" + space +
                 '}';
     }

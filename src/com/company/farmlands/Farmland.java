@@ -48,14 +48,14 @@ public class Farmland extends Land{
     public String toString() {
         return "Farmland{" +
                 "foodType=" + foodType +
-                ", cost=" + cost +
-                ", costPrepare=" + costPrepare +
-                ", costWeekly=" + costWeekly +
-                ", costHarvest=" + costHarvest +
-                ", amountOfGoods=" + amountOfGoods +
-                ", weeksPlanting=" + weeksPlanting +
-                ", weeksGrowing=" + weeksGrowing +
-                ", weekPlanting=" + weekPlanting +
+//                ", cost=" + cost +
+//                ", costPrepare=" + costPrepare +
+//                ", costWeekly=" + costWeekly +
+//                ", costHarvest=" + costHarvest +
+//                ", amountOfGoods=" + amountOfGoods +
+//                ", weeksPlanting=" + weeksPlanting +
+//                ", weeksGrowing=" + weeksGrowing +
+//                ", weekPlanting=" + weekPlanting +
                 '}';
     }
 }
