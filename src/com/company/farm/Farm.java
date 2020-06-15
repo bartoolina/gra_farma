@@ -17,7 +17,7 @@ public class Farm implements ISendMsg {
     List<Building> buildingList;
     Integer farmlandMaxSpaces;
     Integer farmlandUsedSpaces;
-    List<Farmland> farmlands;
+    List<Farmland> farmlandList;
     Double cost;
     public Player assignetToPlayer;
 
@@ -29,7 +29,7 @@ public class Farm implements ISendMsg {
         this.buildingList = buildings;
         this.farmlandMaxSpaces = farmlandMaxSpaces;
         this.farmlandUsedSpaces = farmlandUsedSpaces;
-        this.farmlands = farmlands;
+        this.farmlandList = farmlands;
         this.cost = cost;
     }
 
@@ -57,7 +57,7 @@ public class Farm implements ISendMsg {
 
     public boolean addFarmland(Farmland farmland) {
         if (farmlandUsedSpaces < farmlandMaxSpaces) {
-            farmlands.add(farmland);
+            farmlandList.add(farmland);
             farmland.assignedTo = this;
             farmlandUsedSpaces++;
             return true;
@@ -68,8 +68,8 @@ public class Farm implements ISendMsg {
     }
 
     public void removeFarmland(Farmland farmland) {
-        if (farmlands.contains(farmland)) {
-            farmlands.remove(farmland);
+        if (farmlandList.contains(farmland)) {
+            farmlandList.remove(farmland);
             farmland.assignedTo = null;
             farmlandUsedSpaces--;
         } else {
@@ -79,28 +79,48 @@ public class Farm implements ISendMsg {
 
 
     public Double getValue() {
-        Double value = cost;
+        Double value = 100.0 + buildingMaxSpaces * 50.0 + farmlandMaxSpaces * 50;
         for (Building building : buildingList) {
-            value += building.cost;
+            value += building.cost * 0.5;
         }
-        for (Farmland farmland : farmlands) {
-            value += farmland.cost;
+        for (Farmland farmland : farmlandList) {
+            value += farmland.cost * 0.5;
         }
         return value;
     }
 
     @Override
     public String toString() {
-        return "Farm{" +
-                "buildingMaxSpaces=" + buildingMaxSpaces +
-                ", buildingUsedSpaces=" + buildingUsedSpaces +
-                ", buildings=" + buildingList +
-                ", farmlandMaxSpaces=" + farmlandMaxSpaces +
-                ", farmlandUsedSpaces=" + farmlandUsedSpaces +
-                ", farmlands=" + farmlands +
-                ", cost=" + cost +
-                ", assignetTo=" + assignetToPlayer +
-                '}';
+//        return "Farm{" +
+//                "buildingMaxSpaces=" + buildingMaxSpaces +
+//                ", buildingUsedSpaces=" + buildingUsedSpaces +
+//                ", buildings=" + buildingList +
+//                ", farmlandMaxSpaces=" + farmlandMaxSpaces +
+//                ", farmlandUsedSpaces=" + farmlandUsedSpaces +
+//                ", farmlands=" + farmlands +
+//                ", cost=" + cost +
+//                ", assignetTo=" + assignetToPlayer +
+//                '}';
+
+        return "Ilość budynkow: " + buildingList.size() + ", ilość pól uprawnych: " + farmlandList.size();
+    }
+
+    public String toStringBuy() {
+        return "\nMiejsce pod budynki: " + buildingMaxSpaces +
+                "\nMiejsce zajęte przez budynki: " + buildingUsedSpaces +
+                "\nBudynki na farmie: " + buildingList +
+                "\nMiejsce pod pola uprawne: " + farmlandMaxSpaces +
+                "\nWykupione miejsca pod pola uprawne: " + farmlandUsedSpaces +
+                "\nCena zakupu: " + cost + "\n";
+    }
+
+    public String toStringSell() {
+        return "\nMiejsce pod budynki: " + buildingMaxSpaces +
+                "\nMiejsce zajęte przez budynki: " + buildingUsedSpaces +
+                "\nBudynki na farmie: " + buildingList +
+                "\nMiejsce pod pola uprawne: " + farmlandMaxSpaces +
+                "\nWykuione miejsca pod pola uprawne: " + farmlandUsedSpaces +
+                "\nCena sprzedaży: " + cost + "\n";
     }
 
     public boolean getFood(List<Food> acceptedFood, Double foodPerWeek) {

@@ -1,14 +1,13 @@
 package com.company.animal;
 
 import com.company.building.AnimalHouse;
-import com.company.building.Building;
-import com.company.game.NextWeekObserver;
+import com.company.game.INextWeekObserver;
 import com.company.game.Player;
 import com.company.goods.Food;
 
 import java.util.List;
 
-public class Animal implements NextWeekObserver {
+public class Animal implements INextWeekObserver {
     public final AnimalType species;
     public final Double cost;
     private Double weight;

@@ -57,13 +57,14 @@ public class AnimalHouse extends Building<Animal> implements ISendMsg {
 
     @Override
     public String toString() {
-        return "AnimalHouse{" +
+        return
+//                "AnimalHouse{" +
 //                "animals=" + animals +
-                ", buildingType=" + buildingType +
+                 buildingType.toString();
 //                ", capacity=" + capacity +
 //                ", maxCapacity=" + maxCapacity +
-                ", space=" + space +
-                '}';
+//                "," + space +
+//                '}';
     }
 
     @Override

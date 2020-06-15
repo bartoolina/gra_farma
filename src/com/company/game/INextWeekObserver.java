@@ -1,5 +1,5 @@
 package com.company.game;
 
-public interface NextWeekObserver {
+public interface INextWeekObserver {
     void nextWeek(Player player);
 }

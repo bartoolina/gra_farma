@@ -1,14 +1,14 @@
 package com.company.farmland;
 
 import com.company.farm.Farm;
-import com.company.game.NextWeekObserver;
+import com.company.game.INextWeekObserver;
 import com.company.game.Player;
 import com.company.goods.Food;
 import com.company.goods.Goods;
 
 import java.util.ArrayList;
 
-public class Farmland extends Land implements NextWeekObserver {
+public class Farmland extends Land implements INextWeekObserver {
     public Double cost;
     public Farm assignedTo;
     private LandFactory landFactory;
