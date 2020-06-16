@@ -48,10 +48,15 @@ public class Farmland extends Land implements INextWeekObserver {
         return null;
     }
 
+    public String getFoodType () {
+        return foodType.toString();
+    }
+
     @Override
     public String toString() {
-        return "Farmland{" +
-                "foodType=" + foodType +
+        return
+//                "Farmland{" +
+                 foodType.toString();
 //                ", cost=" + cost +
 //                ", costPrepare=" + costPrepare +
 //                ", costWeekly=" + costWeekly +
@@ -60,7 +65,7 @@ public class Farmland extends Land implements INextWeekObserver {
 //                ", weeksPlanting=" + weeksPlanting +
 //                ", weeksGrowing=" + weeksGrowing +
 //                ", weekPlanting=" + weekPlanting +
-                '}';
+//                '}';
     }
 
     @Override

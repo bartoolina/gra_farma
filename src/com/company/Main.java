@@ -11,7 +11,7 @@ public class Main {
         // test menu
 
         Game game = new Game();
-        game.start();
+        game.starMenu();
 
 
     }

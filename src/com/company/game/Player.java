@@ -1,6 +1,7 @@
 package com.company.game;
 
 import com.company.farm.Farm;
+import com.company.farmland.Farmland;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,6 +45,35 @@ public class Player implements INextWeekObservable {
         } else {
             throw new UnsupportedOperationException("proba sprzedazy nie swojej farmy.");
         }
+    }
+
+    public void buyFarmland (Farm farm){
+        if (farmList.contains(farm)){
+            Farmland newFarmland = new Farmland();
+            if ( newFarmland.cost <= credits) {
+                farm.addFarmland(newFarmland);
+                System.out.println("Kupiłeś pole uprawne.");
+            } else {
+                System.out.println("Masz za mało pięniedzy!");
+            }
+        }else {
+            throw new UnsupportedOperationException("proba dodania pola uprawnego do nie swojej farmy.");
+        }
+    }
+
+    public void sellFarmland (Farmland farmland) {
+        boolean found = false;
+        for (Farm farm : farmList){
+            if(farm.getFarmlandList().contains(farmland)) {
+                farm.removeFarmland(farmland);
+                credits += farmland.cost;
+                found = true;
+            }
+        }
+        if (found) {
+            System.out.println("Sprzedałeś pole uprawne.");
+        }
+
     }
 
     @Override

@@ -54,6 +54,11 @@ public class AnimalHouse extends Building<Animal> implements ISendMsg {
         return valueAnimals;
     }
 
+    @Override
+    public List<Animal> getAccepted() {
+        return acceptedAnimals;
+    }
+
 
     @Override
     public String toString() {

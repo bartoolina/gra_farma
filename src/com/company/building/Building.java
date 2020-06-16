@@ -4,6 +4,8 @@ import com.company.farm.Farm;
 import com.company.game.ISendMsg;
 import com.company.game.Player;
 
+import java.util.List;
+
 abstract public class Building<T> implements ISendMsg {
     public final BuildingType buildingType;
     protected Double capacity;
@@ -29,6 +31,7 @@ abstract public class Building<T> implements ISendMsg {
     abstract public boolean remove (T type);
     abstract public String toString();
     abstract public boolean isEmpty();
+    abstract public List<T> getAccepted();
 
 
 

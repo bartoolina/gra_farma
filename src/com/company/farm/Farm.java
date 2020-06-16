@@ -62,7 +62,8 @@ public class Farm implements ISendMsg {
             farmlandUsedSpaces++;
             return true;
         } else {
-            assignetToPlayer.sendMsg(" nie mozesz dodac wiecej pol uprawnych.", this);
+            System.out.println(" nie mozesz dodac wiecej pol uprawnych.");
+//            assignetToPlayer.sendMsg(" nie mozesz dodac wiecej pol uprawnych.", this);
             return false;
         }
     }
@@ -77,7 +78,6 @@ public class Farm implements ISendMsg {
         }
     }
 
-
     public Double getValue() {
         Double value = 100.0 + buildingMaxSpaces * 50.0 + farmlandMaxSpaces * 50;
         for (Building building : buildingList) {
@@ -87,6 +87,30 @@ public class Farm implements ISendMsg {
             value += farmland.cost * 0.5;
         }
         return value;
+    }
+
+    public Integer getBuildingMaxSpaces() {
+        return buildingMaxSpaces;
+    }
+
+    public Integer getBuildingUsedSpaces() {
+        return buildingUsedSpaces;
+    }
+
+    public List<Building> getBuildingList() {
+        return buildingList;
+    }
+
+    public Integer getFarmlandMaxSpaces() {
+        return farmlandMaxSpaces;
+    }
+
+    public Integer getFarmlandUsedSpaces() {
+        return farmlandUsedSpaces;
+    }
+
+    public List<Farmland> getFarmlandList() {
+        return farmlandList;
     }
 
     @Override
