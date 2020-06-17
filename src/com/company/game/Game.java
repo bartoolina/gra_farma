@@ -1,5 +1,6 @@
 package com.company.game;
 
+import com.company.building.AnimalHouse;
 import com.company.building.Building;
 import com.company.building.BuildingFactory;
 import com.company.building.BuildingType;
@@ -234,7 +235,7 @@ public class Game {
                         addBuilding(farm);
                     }
                     case 2 -> {
-                        removeBuilding(farm);
+//                        removeBuilding(farm);
                     }
                     case 3 -> {
                         return;
@@ -255,13 +256,16 @@ public class Game {
                 menu.add(new String[]{
                         building.buildingType.toString(),
                         String.format("%d", i),
-                        building.
+                        building.getClass() == AnimalHouse.class ? ((AnimalHouse)building).acceptedAnimals.toString() : "",
+                        String.format("%.2f", building.getFreeCapacity()),
+                        String.format("%.2f$", building.cost),
+
                 });
 
             }
         }
         int choice = tableMenu(menu);
-        if (choice == menu.size()) return null;
+        if (choice == menu.size()) return;
     }
 
     private Farm chooseFarm() {

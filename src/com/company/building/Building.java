@@ -31,7 +31,7 @@ abstract public class Building<T> implements ISendMsg {
     abstract public boolean remove (T type);
     abstract public String toString();
     abstract public boolean isEmpty();
-    abstract public List<T> getAccepted();
+
 
 
 

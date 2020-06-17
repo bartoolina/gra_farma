@@ -60,10 +60,6 @@ public class Warehouse extends Building<Goods> {
         }
     }
 
-    @Override
-    public List<Goods> getAccepted() {
-        return null;
-    }
 
     @Override
     public String toString() {
