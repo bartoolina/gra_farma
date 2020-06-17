@@ -32,8 +32,9 @@ abstract public class Building<T> implements ISendMsg {
     abstract public String toString();
     abstract public boolean isEmpty();
 
-
-
+    public Double getCapacity() {
+        return capacity;
+    }
 
     public Double getFreeCapacity() {
         return maxCapacity - capacity;

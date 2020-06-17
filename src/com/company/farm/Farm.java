@@ -1,5 +1,7 @@
 package com.company.farm;
 
+import com.company.animal.AnimalType;
+import com.company.building.AnimalHouse;
 import com.company.building.Building;
 import com.company.building.BuildingType;
 import com.company.building.Warehouse;
@@ -40,7 +42,7 @@ public class Farm implements ISendMsg {
             buildingUsedSpaces += building.space;
             return true;
         } else {
-            assignetToPlayer.sendMsg(" nie masz wystaczajaco miejsca by zbudowac ten budynak.", this);
+            System.out.println("Nie masz wystaczajaco miejsca by zbudowac ten budynak.");
             return false;
         }
     }
@@ -62,8 +64,7 @@ public class Farm implements ISendMsg {
             farmlandUsedSpaces++;
             return true;
         } else {
-            System.out.println(" nie mozesz dodac wiecej pol uprawnych.");
-//            assignetToPlayer.sendMsg(" nie mozesz dodac wiecej pol uprawnych.", this);
+            System.out.println("Nie mozesz dodac wiecej pol uprawnych.");
             return false;
         }
     }
@@ -160,7 +161,7 @@ public class Farm implements ISendMsg {
         return Math.abs(foodPerWeek - takenFood) < 0.001;
     }
 
-    private List<Warehouse> getWarehouses() {
+    public List<Warehouse> getWarehouses() {
         List<Warehouse> warehouses = new ArrayList<>();
         for (Building building : buildingList) {
             if (building.buildingType == BuildingType.MAGAZYN) {
@@ -168,6 +169,16 @@ public class Farm implements ISendMsg {
             }
         }
         return warehouses;
+    }
+
+    public List<AnimalHouse> getAnimalHouse(AnimalType animalType){
+        List<AnimalHouse> animalHouses = new ArrayList<>();
+        for (Building building: buildingList){
+            if (building.buildingType == BuildingType.get(animalType)){
+                animalHouses.add((AnimalHouse)building);
+            }
+        }
+        return animalHouses;
     }
 
     @Override

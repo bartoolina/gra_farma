@@ -36,7 +36,8 @@ public class Warehouse extends Building<Goods> {
             return true;
         } else {
             goods.amountOfFood -= insertedGoods;
-            sendMsg("W jednym w Twoich magazynow skonczylo sie " + goods.getFoodType());
+            System.out.println("W jednym w Twoich magazynow skonczylo sie miejsce ");
+            System.out.println("Dodano tylko " + insertedGoods + "kg "+ goods.getFoodType());
             return false;
         }
     }
@@ -60,6 +61,9 @@ public class Warehouse extends Building<Goods> {
         }
     }
 
+    public List<Goods> getGoodsList() {
+        return goodsList;
+    }
 
     @Override
     public String toString() {

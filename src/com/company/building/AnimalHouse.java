@@ -6,6 +6,7 @@ import com.company.game.ISendMsg;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class AnimalHouse extends Building<Animal> implements ISendMsg {
@@ -31,8 +32,26 @@ public class AnimalHouse extends Building<Animal> implements ISendMsg {
             animal.assignedToBuilding = this;
             capacity++;
             return true;
-        } else return false;
+        } else {
+            System.out.println("Nie masz miejsca w " + buildingType);
+            return false;
+        }
 
+    }
+
+    public List<Animal> getAnimalList() {
+        return animalList;
+    }
+
+    public Integer countAmial (AnimalType animalType)
+    {
+        int count = 0;
+        if (acceptedAnimals.contains(animalType)){
+            for (Animal animal:animalList){
+                if (animal.species == animalType) count++;
+            }
+        }
+        return count;
     }
 
 

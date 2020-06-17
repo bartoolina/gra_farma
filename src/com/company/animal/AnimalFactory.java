@@ -5,11 +5,11 @@ import java.util.Random;
 public class AnimalFactory {
 
     public Animal create(AnimalType animalType) {
-        Integer old = AnimalAdulthood.getAdulthood(animalType);
-        Double weight = AnimalGrow.getGrowRate(animalType) * old;
+        Integer old = AnimalAdulthood.getAdulthood(animalType) / 2;
         Random generator = new Random();
+        old = old + generator.nextInt(old*4);
+        Double weight = AnimalGrow.getGrowRate(animalType) * old;
 
-        old = old + generator.nextInt(old);
         weight = weight + generator.nextDouble() * (weight / 10);
 
         switch (animalType) {

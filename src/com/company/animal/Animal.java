@@ -76,4 +76,14 @@ public class Animal implements INextWeekObserver {
                 ", weeksStarving=" + weeksStarving +
                 '}';
     }
+
+    public Integer getAge() {
+        return oldInWeeks;
+    }
+
+    public Double getWeight() {
+        return weight;
+    }
+
+
 }
