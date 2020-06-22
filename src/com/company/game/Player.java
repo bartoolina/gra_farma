@@ -199,8 +199,10 @@ public class Player implements INextWeekObservable {
         if (farmList.contains(farm)){
             if (farm.getWarehouses().contains(warehouse)){
                 if (credits >= goods.cost * goods.amountOfFood){
+                    Double amount = goods.amountOfFood;
                     warehouse.put(goods);
                     credits -= goods.cost * goods.amountOfFood;
+                    System.out.println("Kupiłeś " + goods.getFoodType() + " w ilości " + (amount - goods.amountOfFood) + " kg");
                     return true;
                 } else {
                     System.out.printf("Nie masz wystaczajacych pieniedzy.");
@@ -212,6 +214,27 @@ public class Player implements INextWeekObservable {
 
         } else {
             throw new UnsupportedOperationException("proba dodania towarow do nie swojej farmy");
+        }
+    }
+
+    public boolean sellGoods(Farm farm, Goods goods, Warehouse warehouse){
+        if (farmList.contains(farm)){
+            if(farm.getWarehouses().contains(warehouse)){
+                if (warehouse.getGoodsList().contains(goods)){
+                    Double amount = goods.amountOfFood;
+                    warehouse.remove(goods);
+                    credits += goods.cost * goods.amountOfFood;
+                    System.out.println("Sprzedałeś " + goods.getFoodType() + " w ilosci " + (amount - goods.amountOfFood) + " kg. Zarobiles " + (amount - goods.amountOfFood)*goods.cost);
+                    return true;
+                } else {
+                    System.out.println("Nie masz " + goods.getFoodType() + " w tym magazynie.");
+                    return false;
+                }
+            } else {
+                throw new UnsupportedOperationException("proba sprzedania towaru z nie swojego magazynu.");
+            }
+        } else {
+            throw new UnsupportedOperationException("proba sprzedania towaru z nie swojej farmy.");
         }
     }
 }

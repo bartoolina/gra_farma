@@ -162,7 +162,55 @@ public class Game {
     }
 
     private void sellGoods(Farm farm) {
+        List<Warehouse> warehouses = playerList.get(actualPlayer).getWarehouses(farm);
+        List<String[]> menu = new ArrayList<>();
+        menu.add(new String[]{"magazyn", "towar", "dostępna ilość", "Cena za kg"});
 
+        for (int i = 0; i < warehouses.size(); i++) {
+            for (Goods goods : warehouses.get(i).getGoodsList()) {
+                Double price = 0.0;
+                for (Goods buySellGoods : buyGoodsList) {
+                    if (buySellGoods.getFoodType() == goods.getFoodType()) {
+                        price = buySellGoods.cost;
+                    }
+                }
+
+                menu.add(new String[]{
+                        "magazyn nr " + (i+1),
+                        goods.getFoodType().toString(),
+                        String.format("%.2f", goods.amountOfFood),
+                        String.format("%.2f$", price)
+                });
+            }
+        }
+
+        int choice = tableMenu(menu);
+        if (choice == menu.size()) return;
+        Double input = -1.0;
+        do {
+            System.out.println("Ile kg chcesz sprzedac?");
+            input = getInput(buyGoodsList.get(choice - 1).amountOfFood);
+        } while (input == -1.0);
+
+        Warehouse selectedWarehouse = warehouses.get(0);
+        for (int i=0; i<warehouses.size(); i++){
+            if (choice > warehouses.get(i).getGoodsList().size()){
+                choice -= warehouses.get(i).getGoodsList().size();
+            } else {
+                selectedWarehouse = warehouses.get(i);
+                break;
+            }
+        }
+
+        Goods goods = selectedWarehouse.getGoodsList().get(choice-1);
+        if (playerList.get(actualPlayer).sellGoods(farm, goods, selectedWarehouse)) {
+            for (Goods goods1 : buyGoodsList) {
+                if (goods1.getFoodType().equals(goods.getFoodType())){
+                    //poprawic
+                    goods1.amountOfFood -= goods.amountOfFood;
+                }
+            }
+        }
     }
 
     private void buyGoods(Farm farm) {
