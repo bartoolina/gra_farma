@@ -60,7 +60,7 @@ public class Player implements INextWeekObservable {
         if (farmList.contains(farm)) {
             Farmland newFarmland = new Farmland();
             if (newFarmland.cost <= credits) {
-                if(farm.addFarmland(newFarmland)){
+                if (farm.addFarmland(newFarmland)) {
                     System.out.println("Kupiłeś pole uprawne.");
                     return true;
                 } else {
@@ -196,9 +196,9 @@ public class Player implements INextWeekObservable {
     }
 
     public boolean buyGoods(Farm farm, Goods goods, Warehouse warehouse) {
-        if (farmList.contains(farm)){
-            if (farm.getWarehouses().contains(warehouse)){
-                if (credits >= goods.cost * goods.amountOfFood){
+        if (farmList.contains(farm)) {
+            if (farm.getWarehouses().contains(warehouse)) {
+                if (credits >= goods.cost * goods.amountOfFood) {
                     Double amount = goods.amountOfFood;
                     warehouse.put(goods);
                     credits -= goods.cost * goods.amountOfFood;
@@ -217,14 +217,14 @@ public class Player implements INextWeekObservable {
         }
     }
 
-    public boolean sellGoods(Farm farm, Goods goods, Warehouse warehouse){
-        if (farmList.contains(farm)){
-            if(farm.getWarehouses().contains(warehouse)){
-                if (warehouse.getGoodsList().contains(goods)){
-                    Double amount = goods.amountOfFood;
-                    warehouse.remove(goods);
-                    credits += goods.cost * goods.amountOfFood;
-                    System.out.println("Sprzedałeś " + goods.getFoodType() + " w ilosci " + (amount - goods.amountOfFood) + " kg. Zarobiles " + (amount - goods.amountOfFood)*goods.cost);
+    public boolean sellGoods(Farm farm, Goods goods, Warehouse warehouse, Double amountToSell) {
+        if (farmList.contains(farm)) {
+            if (farm.getWarehouses().contains(warehouse)) {
+                if (warehouse.getGoodsList().contains(goods)) {
+                    Goods goodsToSell = new Goods(goods.getFoodType(), amountToSell, goods.cost);
+                    warehouse.remove(goodsToSell);
+                    credits += goodsToSell.cost * (amountToSell - goodsToSell.amountOfFood);
+                    System.out.println("Sprzedałeś " + goods.getFoodType() + " w ilosci " + (amountToSell - goodsToSell.amountOfFood) + " kg. Zarobiles " + (amountToSell - goodsToSell.amountOfFood) * goods.cost);
                     return true;
                 } else {
                     System.out.println("Nie masz " + goods.getFoodType() + " w tym magazynie.");

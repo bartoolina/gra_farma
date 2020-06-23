@@ -56,7 +56,7 @@ public class Warehouse extends Building<Goods> {
             return true;
         } else {
             goods.amountOfFood -= takenGoods;
-            sendMsg("W jednym w Twoich magazynow skonczylo sie " + goods.getFoodType());
+            System.out.println("W jednym w Twoich magazynow skonczylo sie " + goods.getFoodType());
             return false;
         }
     }

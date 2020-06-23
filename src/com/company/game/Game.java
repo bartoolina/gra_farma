@@ -171,7 +171,7 @@ public class Game {
                 Double price = 0.0;
                 for (Goods buySellGoods : buyGoodsList) {
                     if (buySellGoods.getFoodType() == goods.getFoodType()) {
-                        price = buySellGoods.cost;
+                        goods.cost = buySellGoods.cost;
                     }
                 }
 
@@ -179,7 +179,7 @@ public class Game {
                         "magazyn nr " + (i+1),
                         goods.getFoodType().toString(),
                         String.format("%.2f", goods.amountOfFood),
-                        String.format("%.2f$", price)
+                        String.format("%.2f$", goods.cost)
                 });
             }
         }
@@ -202,12 +202,13 @@ public class Game {
             }
         }
 
-        Goods goods = selectedWarehouse.getGoodsList().get(choice-1);
-        if (playerList.get(actualPlayer).sellGoods(farm, goods, selectedWarehouse)) {
+        Goods goodsIn = selectedWarehouse.getGoodsList().get(choice-1);
+        Double amountOfGoodsBefore = goodsIn.amountOfFood;
+        if (playerList.get(actualPlayer).sellGoods(farm, goodsIn, selectedWarehouse, input)) {
             for (Goods goods1 : buyGoodsList) {
-                if (goods1.getFoodType().equals(goods.getFoodType())){
+                if (goods1.getFoodType().equals(goodsIn.getFoodType())){
                     //poprawic
-                    goods1.amountOfFood -= goods.amountOfFood;
+                    goods1.amountOfFood += (amountOfGoodsBefore - goodsIn.amountOfFood);
                 }
             }
         }
