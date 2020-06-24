@@ -1,9 +1,6 @@
 package com.company;
 
-import com.company.farm.Farm;
-import com.company.farm.FarmGenerator;
 import com.company.game.Game;
-import com.company.menu.Menu;
 
 public class Main {
 

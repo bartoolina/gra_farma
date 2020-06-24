@@ -8,6 +8,7 @@ import com.company.building.BuildingType;
 import com.company.building.Warehouse;
 import com.company.farm.Farm;
 import com.company.farmland.Farmland;
+import com.company.farmland.Land;
 import com.company.goods.Goods;
 
 import java.util.ArrayList;
@@ -205,7 +206,7 @@ public class Player implements INextWeekObservable {
                     System.out.println("Kupiłeś " + goods.getFoodType() + " w ilości " + (amount - goods.amountOfFood) + " kg");
                     return true;
                 } else {
-                    System.out.printf("Nie masz wystaczajacych pieniedzy.");
+                    System.out.println("Nie masz wystaczajacych pieniedzy.");
                     return false;
                 }
             } else {
@@ -236,5 +237,28 @@ public class Player implements INextWeekObservable {
         } else {
             throw new UnsupportedOperationException("proba sprzedania towaru z nie swojej farmy.");
         }
+    }
+
+    public boolean plantOnFarmland(Farm farm, Farmland farmland, Land land, int week) {
+        if (farmList.contains(farm)){
+            if (farm.getFarmlandList().contains(farmland)){
+                if (credits >=  land.getCostPrepare()){
+                    if ( farmland.prepareFarmland(land, week)){
+                        credits -= land.getCostPrepare();
+                        return true;
+                    } else {
+                        return false;
+                    }
+                } else {
+                    System.out.println("Nie masz wystarczających środków by posadzić " + land.getFoodType());
+                    return false;
+                }
+            } else {
+                throw new UnsupportedOperationException("proba sadzenia na nie swoim polu");
+            }
+        } else {
+            throw new UnsupportedOperationException("proba sadzenia na nie swojej farmie");
+        }
+
     }
 }

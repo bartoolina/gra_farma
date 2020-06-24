@@ -25,6 +25,38 @@ public class Land {
         this.weeksGrowing = weeksGrowing;
     }
 
+    public Food getFoodType() {
+        return foodType;
+    }
+
+    public Double getCostPrepare() {
+        return costPrepare;
+    }
+
+    public Double getCostWeekly() {
+        return costWeekly;
+    }
+
+    public Double getCostHarvest() {
+        return costHarvest;
+    }
+
+    public Double getAmountOfGoods() {
+        return amountOfGoods;
+    }
+
+    public List<Integer> getWeeksPlanting() {
+        return weeksPlanting;
+    }
+
+    public Integer getWeekPlanting() {
+        return weekPlanting;
+    }
+
+    public Integer getWeeksGrowing() {
+        return weeksGrowing;
+    }
+
     @Override
     public String toString() {
         return "Land{" +

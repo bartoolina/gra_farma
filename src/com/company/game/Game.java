@@ -7,6 +7,8 @@ import com.company.building.*;
 import com.company.farm.Farm;
 import com.company.farm.FarmGenerator;
 import com.company.farmland.Farmland;
+import com.company.farmland.Land;
+import com.company.farmland.LandFactory;
 import com.company.goods.Food;
 import com.company.goods.Goods;
 import com.company.goods.GoodsCost;
@@ -22,6 +24,7 @@ public class Game {
     private ArrayList<Player> playerList;
     private int numberOfPlayers;
     private int actualPlayer;
+    private int weekNumber;
 
     Random random = new Random();
     private List<Animal> buyAnimalList;
@@ -29,13 +32,12 @@ public class Game {
     private List<Farm> buyFarmList;
 
     public void starMenu() {
-        int choice = 0;
+        int choice;
         while (true) {
             choice = choiceMenu("Witam w grze \"Upośledzona Farma\"", new String[]{"Nowa gra", "Załaduj gre", "Zapisz gre"});
             switch (choice) {
-                case 1 -> {
-                    newGame();
-                }
+                case 1 -> newGame();
+
                 case 2 -> {
                     //loadGame();
                 }
@@ -65,6 +67,7 @@ public class Game {
         generateNewFarms();
         buyGoodsList = new ArrayList<>();
         generateGoodsCost();
+        weekNumber = 0;
         mainMenuGame();
     }
 
@@ -84,36 +87,16 @@ public class Game {
                     "Zakończ tydzień"
             });
             switch (choice) {
-                case 1 -> {
-                    buySellFarm();
-                }
-                case 2 -> {
-                    buySellFarmland();
-                }
-                case 3 -> {
-                    buildDestroyBuilding();
-                }
-                case 4 -> {
-                    buySellAnimals();
-                }
-                case 5 -> {
-                    buySellGoods();
-                }
-                case 6 -> {
-                    plantHarvestGoods();
-                }
-                case 7 -> {
-                    checkWarehouse();
-                }
-                case 8 -> {
-                    checkAnimals();
-                }
-                case 9 -> {
-                    checkFarmlands();
-                }
-                case 10 -> {
-                    NextPlayer();
-                }
+                case 1 -> buySellFarm();
+                case 2 -> buySellFarmland();
+                case 3 -> buildDestroyBuilding();
+                case 4 -> buySellAnimals();
+                case 5 -> buySellGoods();
+                case 6 -> plantHarvestGoods();
+                case 7 -> checkWarehouse();
+                case 8 -> checkAnimals();
+                case 9 -> checkFarmlands();
+                case 10 -> NextPlayer();
                 case 11 -> {
                     return;
                 }
@@ -135,7 +118,63 @@ public class Game {
     }
 
     private void plantHarvestGoods() {
+        Farm farm = chooseFarm();
+        if (farm == null) return;
+        int choice;
+        while (true) {
+            choice = choiceMenu("Sadzenie/zbiory upraw.", new String[]{
+                    "Sadzenie upraw",
+                    "Zebranie upraw"
+            });
+            switch (choice) {
+                case 1 -> plant(farm);
+                case 2 -> harvest(farm);
+                case 3 -> {
+                    return;
+                }
+            }
+        }
+    }
 
+    private void harvest(Farm farm) {
+
+    }
+
+    private void plant(Farm farm) {
+        Farmland farmland = chooseFarmland(farm.getFarmlandList());
+        String input = "t";
+        do{
+            if (farmland == null) return;
+            else if (!farmland.getFoodType().equals(Food.TRAWA)) {
+                System.out.println("Na tym polu rośnie już " + farmland.getFoodType() + ". Czy chcesz na tym polu posadzić coś nowego?[t/n]");
+                input = scanner.nextLine();
+                if (input.equals("n") || input.equals("N")) return;
+            }
+        } while (!(input.equals("t") || input.equals("T")));
+
+        List<String[]> menu = new ArrayList<>();
+        menu.add(new String[]{"Rodzaj rośliny", "Koszt zasadzenia", "Koszt utrzymania", "Koszt zebrania", "Ilość zebrnia jedzienia", "Ile rośnie [tygodni]", "W jakich tygoniach można zasadzić"});
+
+        LandFactory landFactory = new LandFactory();
+        List<Land> landList = new ArrayList<>();
+        for (Food food : Food.values()) {
+            if (food == Food.TRAWA || food == Food.SIANO) continue;
+            Land land = landFactory.create(food);
+            menu.add(new String[]{
+                    land.getFoodType().toString(),
+                    land.getCostPrepare().toString(),
+                    land.getCostWeekly().toString(),
+                    land.getCostHarvest().toString(),
+                    land.getAmountOfGoods().toString(),
+                    land.getWeeksGrowing().toString(),
+                    land.getWeeksPlanting().toString()
+            });
+            landList.add(land);
+        }
+        int choice = tableMenu(menu);
+        if (choice == menu.size()) return;
+
+        playerList.get(actualPlayer).plantOnFarmland(farm, farmland, landList.get(choice-1), 20);
     }
 
     private void buySellGoods() {
@@ -147,12 +186,8 @@ public class Game {
                     "Sprzedaż zapasów"
             });
             switch (choice) {
-                case 1 -> {
-                    buyGoods(farm);
-                }
-                case 2 -> {
-                    sellGoods(farm);
-                }
+                case 1 -> buyGoods(farm);
+                case 2 -> sellGoods(farm);
                 case 3 -> {
                     return;
                 }
@@ -176,7 +211,7 @@ public class Game {
                 }
 
                 menu.add(new String[]{
-                        "magazyn nr " + (i+1),
+                        "magazyn nr " + (i + 1),
                         goods.getFoodType().toString(),
                         String.format("%.2f", goods.amountOfFood),
                         String.format("%.2f$", goods.cost)
@@ -186,27 +221,27 @@ public class Game {
 
         int choice = tableMenu(menu);
         if (choice == menu.size()) return;
-        Double input = -1.0;
+        Double input;
         do {
             System.out.println("Ile kg chcesz sprzedac?");
             input = getInput(buyGoodsList.get(choice - 1).amountOfFood);
         } while (input == -1.0);
 
         Warehouse selectedWarehouse = warehouses.get(0);
-        for (int i=0; i<warehouses.size(); i++){
-            if (choice > warehouses.get(i).getGoodsList().size()){
-                choice -= warehouses.get(i).getGoodsList().size();
+        for (Warehouse warehouse : warehouses) {
+            if (choice > warehouse.getGoodsList().size()) {
+                choice -= warehouse.getGoodsList().size();
             } else {
-                selectedWarehouse = warehouses.get(i);
+                selectedWarehouse = warehouse;
                 break;
             }
         }
 
-        Goods goodsIn = selectedWarehouse.getGoodsList().get(choice-1);
+        Goods goodsIn = selectedWarehouse.getGoodsList().get(choice - 1);
         Double amountOfGoodsBefore = goodsIn.amountOfFood;
         if (playerList.get(actualPlayer).sellGoods(farm, goodsIn, selectedWarehouse, input)) {
             for (Goods goods1 : buyGoodsList) {
-                if (goods1.getFoodType().equals(goodsIn.getFoodType())){
+                if (goods1.getFoodType().equals(goodsIn.getFoodType())) {
                     //poprawic
                     goods1.amountOfFood += (amountOfGoodsBefore - goodsIn.amountOfFood);
                 }
@@ -227,7 +262,7 @@ public class Game {
         }
         int choice = tableMenu(menu);
         if (choice == menu.size()) return;
-        Double input = -1.0;
+        Double input;
         do {
             System.out.println("Ile kg chcesz kupić?");
             input = getInput(buyGoodsList.get(choice - 1).amountOfFood);
@@ -257,12 +292,8 @@ public class Game {
                     "Sprzedaż swojej farmy"
             });
             switch (choice) {
-                case 1 -> {
-                    buyFarm();
-                }
-                case 2 -> {
-                    sellFarm();
-                }
+                case 1 -> buyFarm();
+                case 2 -> sellFarm();
                 case 3 -> {
                     return;
                 }
@@ -310,12 +341,8 @@ public class Game {
             while (true) {
                 choice = choiceMenu("Co chesz zrobic?", new String[]{"Kupić pole uprawne", "Sprzedać pole uprawne"});
                 switch (choice) {
-                    case 1 -> {
-                        playerList.get(actualPlayer).buyFarmland(farm);
-                    }
-                    case 2 -> {
-                        sellFarmland(farm);
-                    }
+                    case 1 -> playerList.get(actualPlayer).buyFarmland(farm);
+                    case 2 -> sellFarmland(farm);
                     case 3 -> {
                         return;
                     }
@@ -331,7 +358,7 @@ public class Game {
         menu.add(new String[]{"Typ pola", "Cena"});
         for (Farmland farmland : farm.getFarmlandList()) {
             menu.add(new String[]{
-                    farmland.getFoodType(),
+                    farmland.getFoodType().toString(),
                     farmland.cost.toString()
             });
         }
@@ -348,12 +375,8 @@ public class Game {
             while (true) {
                 choice = choiceMenu("Co chesz zrobic?", new String[]{"Wybudować nowy budynek", "Zburzyć istniejący budynek"});
                 switch (choice) {
-                    case 1 -> {
-                        addBuilding(farm);
-                    }
-                    case 2 -> {
-                        removeBuilding(farm);
-                    }
+                    case 1 -> addBuilding(farm);
+                    case 2 -> removeBuilding(farm);
                     case 3 -> {
                         return;
                     }
@@ -377,7 +400,7 @@ public class Game {
         int choice = tableMenu(menu);
         if (choice == menu.size()) return;
         playerList.get(actualPlayer).removeBuilding(farm, farm.getBuildingList().get(choice - 1));
-        return;
+
     }
 
     private void addBuilding(Farm farm) {
@@ -414,12 +437,8 @@ public class Game {
             while (true) {
                 choice = choiceMenu("Co chesz zrobic?", new String[]{"Kupić zwierze", "Sprzedać zwierze"});
                 switch (choice) {
-                    case 1 -> {
-                        buyAnimal(farm);
-                    }
-                    case 2 -> {
-//                        sellAnimal(farm);
-                    }
+                    case 1 -> buyAnimal(farm);
+//                    case 2 -> sellAnimal(farm);
                     case 3 -> {
                         return;
                     }
@@ -484,8 +503,7 @@ public class Game {
             }
             int choice = tableMenu(menu);
             if (choice == menu.size()) return null;
-            Farm farm = playerList.get(actualPlayer).getFarmList().get(choice - 1);
-            return farm;
+            return playerList.get(actualPlayer).getFarmList().get(choice - 1);
         }
 
     }
@@ -494,7 +512,7 @@ public class Game {
         if (animalHouseList.size() < 1) {
             System.out.println("Nie posiadasz żadnej domu dla zwierząt!");
             return null;
-        } else if (playerList.get(actualPlayer).getFarmList().size() == 1) {
+        } else if (animalHouseList.size() == 1) {
             return animalHouseList.get(0);
         } else {
             System.out.println("Wybierz dom dla zwierzecia");
@@ -519,7 +537,7 @@ public class Game {
         if (warehouseList.size() < 1) {
             System.out.println("Nie posiadasz żadnego magazynu!");
             return null;
-        } else if (playerList.get(actualPlayer).getFarmList().size() == 1) {
+        } else if (warehouseList.size() == 1) {
             return warehouseList.get(0);
         } else {
             System.out.println("Wybierz magazyn");
@@ -537,6 +555,36 @@ public class Game {
             return warehouseList.get(choice - 1);
         }
 
+    }
+
+    private Farmland chooseFarmland(List<Farmland> farmlandList) {
+        if (farmlandList.size() < 1) {
+            System.out.println("Nie posiadasz żadnego pola uprawnego!");
+            return null;
+        } else if (farmlandList.size() == 1) {
+            return farmlandList.get(0);
+        } else {
+            System.out.println("Wybierz pole uprawne");
+            List<String[]> menu = new ArrayList<>();
+
+            menu.add(new String[]{"Rodzaj rośliny", "Koszt przygotowania", "Koszt zbioru", "Koszt utrzymania", "Ile można zebrać", "Kiedy zasadzone", "Jak długo rośnie", "Kiedy można zasiać"});
+            for (Farmland farmland : farmlandList) {
+                menu.add(new String[]{
+                        farmland.getFoodType().toString(),
+                        farmland.getCostPrepare().toString(),
+                        farmland.getCostHarvest().toString(),
+                        farmland.getCostWeekly().toString(),
+                        farmland.getAmountOfGoods().toString(),
+                        farmland.getWeekPlanting().toString(),
+                        farmland.getWeeksGrowing().toString(),
+                        farmland.getWeeksPlanting().toString()
+                });
+            }
+            int choice = tableMenu(menu);
+            if (choice == menu.size()) return null;
+
+            return farmlandList.get(choice - 1);
+        }
     }
 
     private int choiceMenu(String title, String[] menuItem) {
@@ -616,7 +664,7 @@ public class Game {
 
     private int getInput(Integer maxNumber) {
         String input = null;
-        int result = 0;
+        int result;
         try {
             input = scanner.nextLine();
             result = Integer.parseInt(input);
@@ -632,7 +680,7 @@ public class Game {
 
     private Double getInput(Double maxNumber) {
         String input = null;
-        Double result = -1.0;
+        Double result;
         try {
             input = scanner.nextLine();
             result = Double.parseDouble(input);
@@ -689,6 +737,7 @@ public class Game {
         generateGoodsCost();
         generateNewAnimals();
         generateNewFarms();
+        weekNumber++;
     }
 
     private void NextPlayer() {

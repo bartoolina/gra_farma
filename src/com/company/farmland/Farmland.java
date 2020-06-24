@@ -30,11 +30,17 @@ public class Farmland extends Land implements INextWeekObserver {
         this.weeksGrowing = land.weeksGrowing;
     }
 
-    public void prepareFarmland(Land land, Player player) {
-        if (land.weeksPlanting.contains(player.getWeek())) {
+    public boolean prepareFarmland(Land land, int week) {
+        if (land.weeksPlanting.contains(week)) {
             setFarmland(land);
-            this.weekPlanting = player.getWeek();
+            this.weekPlanting = week;
+            System.out.println("Zasadziłeś " + land.foodType + ". Za " + land.weeksGrowing + " tygodni możesz zebrać plony.");
+            return true;
+        } else {
+            System.out.println("To nie jest czas na sadzenie " + land.getFoodType());
+            return false;
         }
+
     }
 
     public Goods harvestGoods(Player player) {
@@ -48,9 +54,8 @@ public class Farmland extends Land implements INextWeekObserver {
         return null;
     }
 
-    public String getFoodType () {
-        return foodType.toString();
-    }
+
+
 
     @Override
     public String toString() {
