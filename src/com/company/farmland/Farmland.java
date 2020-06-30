@@ -77,10 +77,10 @@ public class Farmland extends Land implements INextWeekObserver {
         player.credits -= costWeekly;
         if (player.getWeek() > 51 && foodType != Food.TRAWA) {
             setFarmland(landFactory.create(Food.TRAWA));
-            player.sendMsg(foodType + " nastala zima i plony umarly.", assignedTo);
+            System.out.println(foodType + " nastala zima i plony umarly.");
         }
         if (player.getWeek() >= weekPlanting + weeksGrowing && foodType != Food.TRAWA) {
-            player.sendMsg(foodType + " jest gotowe do zbioru.", assignedTo);
+            System.out.println(foodType + " jest gotowe do zbioru.");
         }
     }
 }

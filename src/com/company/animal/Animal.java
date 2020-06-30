@@ -48,12 +48,10 @@ public class Animal implements INextWeekObserver {
         } else {
             weight -= growPerWeek;
             if (weeksStarving > 1) animalIsDead(player);
-            else animalIsStarving(player);
+            else {
+                System.out.println(player.name + ": " +species+ " głoduje. Za mało jedzenia!");
+            }
         }
-    }
-
-    private void animalIsStarving(Player player) {
-        player.sendMsg(species + " gloduje. Za malo jedzenia!", assignedToBuilding.assignedToFarm);
     }
 
     private boolean takeFood(List<Food> acceptedFood, Double foodPerWeek) {
@@ -61,12 +59,13 @@ public class Animal implements INextWeekObserver {
     }
 
     private void animalIsDead(Player player) {
-        player.sendMsg(species + " zmarlo z glodu.", assignedToBuilding.assignedToFarm);
+        System.out.println(species + " zmarlo z glodu.");
         assignedToBuilding.remove(this);
+        player.unregisterObserver(this);
     }
 
     private void animalIsAdult(Player player) {
-        assignedToBuilding.sendMsg(species + " osiagnelo doroslowsc.");
+        System.out.println(species + " osiagnelo doroslowsc.");
     }
 
     @Override

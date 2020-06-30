@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Set;
 
 public class Player implements INextWeekObservable {
-    Set<INextWeekObserver> observers;
+    List<INextWeekObserver> observers = new ArrayList<>();
     public Double credits;
     public String name;
     List<Farm> farmList;
@@ -37,6 +37,9 @@ public class Player implements INextWeekObservable {
                 farmList.add(farm);
                 credits -= farm.getValue();
                 System.out.println("Kupiłeś farme!");
+                for (Farmland farmland : farm.getFarmlandList()){
+                    registerObserver(farmland);
+                }
                 return true;
             } else {
                 System.out.println("Masz za mało pięniedzy!");
@@ -63,6 +66,7 @@ public class Player implements INextWeekObservable {
             if (newFarmland.cost <= credits) {
                 if (farm.addFarmland(newFarmland)) {
                     System.out.println("Kupiłeś pole uprawne.");
+                    registerObserver(newFarmland);
                     return true;
                 } else {
                     return false;
@@ -82,6 +86,7 @@ public class Player implements INextWeekObservable {
                 farm.removeFarmland(farmland);
                 credits += farmland.cost;
                 System.out.println("Sprzedałeś pole uprawne.");
+                unregisterObserver(farmland);
             } else {
                 throw new UnsupportedOperationException("proba sprzedania pola nie nalezacego do famry.");
             }
@@ -151,6 +156,7 @@ public class Player implements INextWeekObservable {
                     credits -= animal.cost;
                     if (animalHouse.put(animal)) {
                         System.out.println("Dodałeś " + animal.species + " do " + animalHouse.buildingType + ". Pozostao wolnego miejsca: " + animalHouse.getFreeCapacity());
+                        registerObserver(animal);
                         return true;
                     } else {
                         return false;
@@ -284,6 +290,19 @@ public class Player implements INextWeekObservable {
             }
         } else {
             throw new UnsupportedOperationException("proba zebrania z nie swojej farmy");
+        }
+    }
+
+    public void sellAnimal(Farm farm, AnimalHouse animalHouse, Animal animal) {
+        if (farmList.contains(farm)){
+            if (farm.getBuildingList().contains(animalHouse)){
+                if (animalHouse.getAnimalList().contains(animal)){
+                    credits =+ animal.cost;
+                    animalHouse.remove(animal);
+                    System.out.println("Sprzedałeś " + animal.species + " za " + animal.cost);
+                    unregisterObserver(animal);
+                }
+            }
         }
     }
 }

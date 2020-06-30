@@ -135,12 +135,12 @@ public class Game {
         List<Farm> farmList = playerList.get(actualPlayer).getFarmList();
         List<AnimalHouse> animalHouseList = new ArrayList<>();
         for (int f = 0; f < farmList.size(); f++) {
-            for (Building building : farmList.get(f).getBuildingList()){
+            for (Building building : farmList.get(f).getBuildingList()) {
                 if (building.buildingType == BuildingType.MAGAZYN) continue;
                 animalHouseList.add((AnimalHouse) building);
-                for (Animal animal : ((AnimalHouse)building).getAnimalList() ){
+                for (Animal animal : ((AnimalHouse) building).getAnimalList()) {
                     menu.add(new String[]{
-                            "farma nr " + (f+1),
+                            "farma nr " + (f + 1),
                             building.buildingType.toString(),
                             animal.species.toString(),
                             animal.getAge().toString(),
@@ -516,7 +516,43 @@ public class Game {
     }
 
     private void sellAnimal(Farm farm) {
-        // TODO
+
+        List<String[]> menu = new ArrayList<>();
+        menu.add(new String[]{"budynek", "zwierze", "wiek [tyg]", "waga", "czy gloduje"});
+
+        List<Animal> animalList = new ArrayList<>();
+        List<Farm> farmList = playerList.get(actualPlayer).getFarmList();
+        List<AnimalHouse> animalHouseList = new ArrayList<>();
+
+            for (Building building : farm.getBuildingList()) {
+                if (building.buildingType == BuildingType.MAGAZYN) continue;
+                animalHouseList.add((AnimalHouse) building);
+                for (Animal animal : ((AnimalHouse) building).getAnimalList()) {
+                    animalList.add(animal);
+                    menu.add(new String[]{
+                            building.buildingType.toString(),
+                            animal.species.toString(),
+                            animal.getAge().toString(),
+                            animal.getWeight().toString(),
+                            animal.getWeeksStarving() > 0 ? "tak" : "nie"
+                    });
+                }
+            }
+
+        int choice = tableMenu(menu);
+        if (choice == menu.size()) return;
+
+        Animal animal = animalList.get(choice-1);
+        AnimalHouse animalHouse;
+        for(AnimalHouse ah : animalHouseList){
+            if (ah.getAnimalList().contains(animal)){
+                animalHouse = ah;
+                playerList.get(actualPlayer).sellAnimal(farm, animalHouse, animal);
+                break;
+            }
+        }
+
+
     }
 
     private void buyAnimal(Farm farm) {
@@ -809,6 +845,7 @@ public class Game {
         generateNewAnimals();
         generateNewFarms();
         weekNumber++;
+        playerList.get(actualPlayer).notifyObservers();
     }
 
     private void NextPlayer() {
