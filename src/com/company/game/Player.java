@@ -240,10 +240,10 @@ public class Player implements INextWeekObservable {
     }
 
     public boolean plantOnFarmland(Farm farm, Farmland farmland, Land land, int week) {
-        if (farmList.contains(farm)){
-            if (farm.getFarmlandList().contains(farmland)){
-                if (credits >=  land.getCostPrepare()){
-                    if ( farmland.prepareFarmland(land, week)){
+        if (farmList.contains(farm)) {
+            if (farm.getFarmlandList().contains(farmland)) {
+                if (credits >= land.getCostPrepare()) {
+                    if (farmland.prepareFarmland(land, week)) {
                         credits -= land.getCostPrepare();
                         return true;
                     } else {
@@ -260,5 +260,30 @@ public class Player implements INextWeekObservable {
             throw new UnsupportedOperationException("proba sadzenia na nie swojej farmie");
         }
 
+    }
+
+    public Goods harvest(Farm farm, Farmland farmland, int weekNumber) {
+        if (farmList.contains(farm)) {
+            if (farm.getFarmlandList().contains(farmland)) {
+                if (credits >= farmland.getCostHarvest()) {
+                    Goods goods = farmland.harvestGoods(weekNumber);
+                    if (goods != null) {
+                        credits -= farmland.getCostHarvest();
+                        System.out.println("Zebrałeś " + goods.amountOfFood + "kg " + goods.getFoodType());
+                        return goods;
+                    } else {
+                        System.out.println("Jeszcze za wcześnie na zbieranie plonów.");
+                        return null;
+                    }
+                } else {
+                    System.out.println("Masz za mało pieniędzy, żeby zebrać plony.");
+                    return null;
+                }
+            } else {
+                throw new UnsupportedOperationException("proba zebrania z niesowjego pola");
+            }
+        } else {
+            throw new UnsupportedOperationException("proba zebrania z nie swojej farmy");
+        }
     }
 }

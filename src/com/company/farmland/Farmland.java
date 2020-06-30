@@ -43,12 +43,11 @@ public class Farmland extends Land implements INextWeekObserver {
 
     }
 
-    public Goods harvestGoods(Player player) {
-        if (player.getWeek() >= weekPlanting + weeksGrowing) {
+    public Goods harvestGoods(int week) {
+        if (week >= weekPlanting + weeksGrowing) {
             Goods harvest = new Goods(foodType, amountOfGoods);
-            player.credits -= costHarvest;
             setFarmland(landFactory.create(Food.TRAWA));
-            this.weekPlanting = player.getWeek();
+            this.weekPlanting = week;
             return harvest;
         }
         return null;

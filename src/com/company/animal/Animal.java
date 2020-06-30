@@ -16,6 +16,11 @@ public class Animal implements INextWeekObserver {
     private final Integer adulthood;
     public final Double foodPerWeek;
     public final List<Food> acceptedFood;
+
+    public Integer getWeeksStarving() {
+        return weeksStarving;
+    }
+
     private Integer weeksStarving;
     public AnimalHouse assignedToBuilding;
 

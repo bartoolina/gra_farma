@@ -106,14 +106,75 @@ public class Game {
     }
 
     private void checkFarmlands() {
+        List<String[]> menu = new ArrayList<>();
+        menu.add(new String[]{"farma", "typ", "ilosc", "ilo rosnie", "kiedy zasiano", "kosze zebrania", "koszt tygodniowy"});
 
+        List<Farm> farmList = playerList.get(actualPlayer).getFarmList();
+        List<Farmland> farmlandList;
+        for (int f = 0; f < farmList.size(); f++) {
+            farmlandList = playerList.get(actualPlayer).getFarmList().get(f).getFarmlandList();
+            for (Farmland farmland : farmlandList) {
+                menu.add(new String[]{
+                        "farma nr " + (f + 1),
+                        farmland.getFoodType().toString(),
+                        farmland.getAmountOfGoods().toString(),
+                        farmland.getWeeksGrowing().toString(),
+                        farmland.getWeeksGrowing().toString(),
+                        farmland.getCostHarvest().toString(),
+                        farmland.getCostWeekly().toString()
+                });
+            }
+        }
+        tableMenu(menu);
     }
 
     private void checkAnimals() {
+        List<String[]> menu = new ArrayList<>();
+        menu.add(new String[]{"farma", "budynek", "zwierze", "wiek [tyg]", "waga", "czy gloduje"});
+
+        List<Farm> farmList = playerList.get(actualPlayer).getFarmList();
+        List<AnimalHouse> animalHouseList = new ArrayList<>();
+        for (int f = 0; f < farmList.size(); f++) {
+            for (Building building : farmList.get(f).getBuildingList()){
+                if (building.buildingType == BuildingType.MAGAZYN) continue;
+                animalHouseList.add((AnimalHouse) building);
+                for (Animal animal : ((AnimalHouse)building).getAnimalList() ){
+                    menu.add(new String[]{
+                            "farma nr " + (f+1),
+                            building.buildingType.toString(),
+                            animal.species.toString(),
+                            animal.getAge().toString(),
+                            animal.getWeight().toString(),
+                            animal.getWeeksStarving() > 0 ? "tak" : "nie"
+                    });
+                }
+            }
+        }
+        tableMenu(menu);
 
     }
 
     private void checkWarehouse() {
+        List<String[]> menu = new ArrayList<>();
+        menu.add(new String[]{"farma", "magazyn", "towar", "ilość"});
+
+        List<Farm> farmList = playerList.get(actualPlayer).getFarmList();
+        List<Warehouse> warehouseList;
+        for (int f = 0; f < farmList.size(); f++) {
+            warehouseList = playerList.get(actualPlayer).getWarehouses(farmList.get(f));
+            for (int w = 0; w < warehouseList.size(); w++) {
+                for (Goods goods : warehouseList.get(w).getGoodsList()) {
+                    menu.add(new String[]{
+                            "farma nr " + (f + 1),
+                            "magazyn nr " + (w + 1),
+                            goods.getFoodType().toString(),
+                            String.format("%.2f", goods.amountOfFood),
+                    });
+                }
+            }
+        }
+        tableMenu(menu);
+
 
     }
 
@@ -137,13 +198,18 @@ public class Game {
     }
 
     private void harvest(Farm farm) {
-
+        Farmland farmland = chooseFarmland(farm.getFarmlandList());
+        Goods goods = playerList.get(actualPlayer).harvest(farm, farmland, weekNumber);
+        if (goods == null) return;
+        Warehouse warehouse = chooseWarehose(playerList.get(actualPlayer).getWarehouses(farm));
+        warehouse.put(goods);
+        // TODO
     }
 
     private void plant(Farm farm) {
         Farmland farmland = chooseFarmland(farm.getFarmlandList());
         String input = "t";
-        do{
+        do {
             if (farmland == null) return;
             else if (!farmland.getFoodType().equals(Food.TRAWA)) {
                 System.out.println("Na tym polu rośnie już " + farmland.getFoodType() + ". Czy chcesz na tym polu posadzić coś nowego?[t/n]");
@@ -174,7 +240,7 @@ public class Game {
         int choice = tableMenu(menu);
         if (choice == menu.size()) return;
 
-        playerList.get(actualPlayer).plantOnFarmland(farm, farmland, landList.get(choice-1), 20);
+        playerList.get(actualPlayer).plantOnFarmland(farm, farmland, landList.get(choice - 1), 20);
     }
 
     private void buySellGoods() {
@@ -279,6 +345,7 @@ public class Game {
                 buyGoodsList.get(choice - 1).amountOfFood -= (input - goods.amountOfFood);
         } else {
             Warehouse destinationHouse = chooseWarehose(warehouses);
+            if (destinationHouse == null) return;
             if (playerList.get(actualPlayer).buyGoods(farm, goods, destinationHouse))
                 buyGoodsList.get(choice - 1).amountOfFood -= (input - goods.amountOfFood);
         }
@@ -438,7 +505,7 @@ public class Game {
                 choice = choiceMenu("Co chesz zrobic?", new String[]{"Kupić zwierze", "Sprzedać zwierze"});
                 switch (choice) {
                     case 1 -> buyAnimal(farm);
-//                    case 2 -> sellAnimal(farm);
+                    case 2 -> sellAnimal(farm);
                     case 3 -> {
                         return;
                     }
@@ -446,6 +513,10 @@ public class Game {
                 }
             }
         }
+    }
+
+    private void sellAnimal(Farm farm) {
+        // TODO
     }
 
     private void buyAnimal(Farm farm) {

@@ -21,12 +21,14 @@ public class Warehouse extends Building<Goods> {
             for (Goods goodsInBuilding : goodsList) {
                 if (goodsInBuilding.getFoodType().equals(goods.getFoodType())) {
                     goodsInBuilding.amountOfFood += insertedGoods;
+                    capacity += insertedGoods;
                     goodsIsIn = true;
                     break;
                 }
             }
             if (!goodsIsIn) {
                 goodsList.add(new Goods(goods.getFoodType(), insertedGoods));
+                capacity += insertedGoods;
             }
         } else {
             sendMsg("Magazyn jest pelny.");
